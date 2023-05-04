@@ -37,13 +37,15 @@ class _MyHomePageState extends State<MyHomePage> {
 
   final titleController=TextEditingController();
   final amountController=TextEditingController();
+  final descController=TextEditingController();
+
 
   List<Transaction> transaction =[
     // Transaction(id: 't1', title: 'Mount Abu', amount: 2000, date: DateTime.now()),
     // Transaction(id: 't2', title: 'Jaipur', amount: 4000, date: DateTime.now())
   ];
   int cnt=1;
-  _addTransaction(String title,double amount){
+  _addTransaction(String title,double amount,String description){
 
 
     print(title);
@@ -52,7 +54,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
    setState(() {
 
-     var tre=Transaction(id: 't$cnt', title: title, amount: amount, date: DateTime.now());
+     var tre=Transaction(id: 't$cnt', title: title, amount: amount, date: DateTime.now(),description: description);
      transaction.add(tre);
      cnt++;
    });
@@ -82,22 +84,33 @@ class _MyHomePageState extends State<MyHomePage> {
               controller: amountController,
               decoration: InputDecoration(hintText: "Amount"),
             ),
+            TextFormField(
+              maxLines: 5,
+              decoration: InputDecoration(hintText: "Description"),
+              controller: descController,
+            ),
             ElevatedButton(onPressed: (){
               print(titleController.text);
               print(amountController.text);
-              _addTransaction(titleController.text,double.parse(amountController.text));
+              _addTransaction(titleController.text,double.parse(amountController.text),descController.text);
             amountController.text="";
             titleController.text="";
+            descController.text="";
               }, child: Text("Submit")),
             Expanded(
               child: ListView.builder(
                 itemCount: transaction.length,
                 itemBuilder: (BuildContext context,int index){
-                  return ListTile(
-                    title: Text('${transaction[index].title}'),
-                    subtitle: Text('${DateFormat.yMd().format(transaction[index].date)}'),
-                    leading: Text('${transaction[index].id}'),
-                    trailing: Text('${transaction[index].amount}'),
+                  return Card(
+                    child: Column(
+                      children: [
+                        Text('${transaction[index].id}'),
+                        Text('${transaction[index].title}'),
+                        Text('${transaction[index].description}'),
+                        Text('${transaction[index].amount}'),
+                        Text('${transaction[index].date}')
+                      ],
+                    ),
                   );
                 },
               ),
