@@ -53,8 +53,11 @@ class _MyHomePageState extends State<MyHomePage> {
 
 
    setState(() {
-
-     var tre=Transaction(id: 't$cnt', title: title, amount: amount, date: DateTime.now(),description: description);
+     final DateTime now = DateTime.now();
+     final DateFormat formatter = DateFormat('yyyy-MM-dd');
+     final String formatted = formatter.format(now);
+     print(formatted);
+     var tre=Transaction(id: 't$cnt', title: title, amount: amount, date: formatted,description: description);
      transaction.add(tre);
      cnt++;
    });
@@ -102,14 +105,58 @@ class _MyHomePageState extends State<MyHomePage> {
                 itemCount: transaction.length,
                 itemBuilder: (BuildContext context,int index){
                   return Card(
-                    child: Column(
-                      children: [
-                        Text('${transaction[index].id}'),
-                        Text('${transaction[index].title}'),
-                        Text('${transaction[index].description}'),
-                        Text('${transaction[index].amount}'),
-                        Text('${transaction[index].date}')
-                      ],
+                    child: Expanded(
+                      child: Row(
+                        children: [
+
+                          Expanded(
+                            child: Column(
+                              children: [
+                                Text('${transaction[index].id}'),
+                              ],
+                            ),
+                          ),
+                          Expanded(
+                            child: Column(
+                              children: [
+                                Text('${transaction[index].title}'),
+                              ],
+                            ),
+                          ),
+                          Expanded(
+
+                            child: Column(
+                              children: [
+                                Column(
+                                  children: [
+                                    Text('${transaction[index].description}'),
+
+                                  ],
+
+                                ),
+                                Text('${transaction[index].date}'),
+
+                              ],
+                            ),
+
+                          ),
+                          // Expanded(
+                          //   child: Column(
+                          //     children: [
+                          //       Text('${transaction[index].date}'),
+                          //     ],
+                          //   ),
+                          // ),
+                          Expanded(
+                            child: Column(
+                              children: [
+                                Text('${transaction[index].amount}'),
+                              ],
+                            ),
+                          ),
+
+                        ],
+                      ),
                     ),
                   );
                 },

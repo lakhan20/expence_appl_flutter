@@ -2,7 +2,7 @@ class Transaction{
   final String id;
   final String title;
   final double amount;
-  final DateTime date;
+  final String date;
   final String? description;
 
   Transaction({
